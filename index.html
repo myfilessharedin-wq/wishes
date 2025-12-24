@@ -3,11 +3,13 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Печенье с предсказанием</title>
+<title>Ретро Печенье с предсказанием</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
   body {
-    font-family: Georgia, serif;
-    background: #f7efe5;
+    font-family: 'Press Start 2P', cursive;
+    background: #f0e4d7; /* ретро-бежевый фон */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -18,16 +20,16 @@
   .cookie {
     width: 220px;
     height: 140px;
-    background: #d8a15d;
+    background: linear-gradient(145deg, #d9a15d, #c48845);
     border-radius: 0 0 120px 120px;
     position: relative;
     cursor: pointer;
-    box-shadow: inset -5px -5px 0 rgba(0,0,0,0.1);
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.2), inset -5px -5px 0 rgba(0,0,0,0.1);
     transition: transform 0.4s ease;
   }
 
   .cookie.open {
-    transform: rotate(-8deg);
+    transform: rotate(-8deg) scale(1.05);
   }
 
   .paper {
@@ -36,31 +38,39 @@
     left: 50%;
     width: 180px;
     padding: 14px;
-    background: #fff8dc;
-    border: 1px solid #d6c9a5;
-    transform: translate(-50%, -50%) scaleY(0);
+    background: #fff4d6;
+    border: 2px solid #d6c9a5;
+    border-radius: 8px;
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.1);
+    transform: translate(-50%, -50%) scaleY(0) rotate(-2deg);
     transform-origin: bottom;
-    transition: transform 0.5s ease;
+    transition: transform 0.4s ease;
     text-align: center;
-    font-size: 14px;
+    font-size: 12px;
+    line-height: 1.4;
   }
 
   .cookie.open .paper {
-    transform: translate(-50%, -50%) scaleY(1);
+    transform: translate(-50%, -50%) scaleY(1) rotate(0deg);
   }
 
   .hint {
     margin-top: 20px;
-    font-size: 13px;
+    font-size: 11px;
     opacity: 0.7;
     text-align: center;
+  }
+
+  /* ретро-анимация при ховере */
+  .cookie:hover {
+    transform: scale(1.03);
   }
 </style>
 </head>
 <body>
 
 <div>
-  <div class="cookie" onclick="openCookie()">
+  <div class="cookie" onclick="toggleCookie()">
     <div class="paper" id="fortune"></div>
   </div>
   <div class="hint">Нажми на печенье 🍪</div>
@@ -69,22 +79,46 @@
 <script>
   const fortunes = [
     "В новом году тебя ждёт приятная поездка ✈️",
-    "Рабочие идеи выстрелят неожиданно 🚀",
-    "Ты купишь вещь, которая будет радовать каждый день 🛍️",
-    "Команда приятно удивит 🤝",
+    "Тебя ждёт незабываемое приключение 🌅",
+    "Покупка года окажется удачной 🛍️",
+    "На горизонте новая дружба 🤝",
     "Будет повод для праздника 🎉",
     "Год принесёт рост и спокойствие 🌱",
     "Ты окажешься в нужное время в нужном месте ⭐️",
-    "Будет больше отдыха, чем ты ожидаешь 🏖️",
-    "Тебя ждёт тёплая встреча 🫶",
-    "Смелое решение принесёт результат 🔥"
+    "Отпуск будет лучше, чем ожидалось 🏖️",
+    "Тёплая встреча оставит след 🫶",
+    "Смелое решение принесёт результат 🔥",
+    "Год порадует финансово 💳",
+    "Новый навык пригодится быстрее, чем кажется 🧠",
+    "Ты ощутишь гармонию и спокойствие 🌿",
+    "Будет больше поводов для смеха 😂",
+    "Спонтанная идея окажется удачной 🌈",
+    "Ты почувствуешь уверенность в своих силах 💪",
+    "Хорошие новости придут неожиданно 📩",
+    "Новая привычка приживётся легко ⏳",
+    "Кто-то скажет важные слова ❤️",
+    "Год закончится ощущением «я молодец» 🎁"
   ];
 
-  function openCookie() {
+  let lastIndex = -1;
+
+  function getRandomFortune() {
+    let index;
+    do {
+      index = Math.floor(Math.random() * fortunes.length);
+    } while (index === lastIndex);
+    lastIndex = index;
+    return fortunes[index];
+  }
+
+  function toggleCookie() {
     const cookie = document.querySelector('.cookie');
     const paper = document.getElementById('fortune');
-    if (!cookie.classList.contains('open')) {
-      paper.textContent = fortunes[Math.floor(Math.random() * fortunes.length)];
+
+    if (cookie.classList.contains('open')) {
+      cookie.classList.remove('open');
+    } else {
+      paper.textContent = getRandomFortune();
       cookie.classList.add('open');
     }
   }
